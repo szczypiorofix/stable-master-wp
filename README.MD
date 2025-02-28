@@ -1,0 +1,1 @@
+# Stable Master - Wordpress plugin
