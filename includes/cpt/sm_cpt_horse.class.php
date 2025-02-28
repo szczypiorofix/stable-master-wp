@@ -19,6 +19,7 @@ class Sm_Cpt_Horse extends Sm_Cpt {
         );
 
         add_action('init', array($this, 'customHorseCategory'));
+        add_action('init', array($this, 'customHorseTags'));
     }
 
     public function sm_horse_change_title($title){
@@ -69,7 +70,7 @@ class Sm_Cpt_Horse extends Sm_Cpt {
             'show_in_admin_bar' => true,
             'show_in_rest'      => true,
             'menu_position'     => 31,
-            'supports'          => array('title', 'editor', 'thumbnail') // 'author'
+            'supports'          => array('title', 'editor', 'thumbnail')
         );
 
         register_post_type( $this->postTypeSlug, $postTypeArgs );
@@ -90,7 +91,7 @@ class Sm_Cpt_Horse extends Sm_Cpt {
 
     }
 
-    public function customHorseCategory() {
+    public function customHorseCategory(): void {
         $labels = array(
             'name'              => _x('Kategorie koni', 'taxonomy general name', SM_DOMAIN),
             'singular_name'     => _x('Kategoria koni', 'taxonomy singular name', SM_DOMAIN),
@@ -117,7 +118,36 @@ class Sm_Cpt_Horse extends Sm_Cpt {
         register_taxonomy('horse_category', array($this->postTypeSlug), $args);
     }
 
-    public function horseDescriptionCustomFields() {
+    public function customHorseTags(): void {
+        $labels = array(
+            'name' => _x( 'Cechy koni', 'taxonomy general name' ),
+            'singular_name' => _x( 'Cecha konia', 'taxonomy singular name' ),
+            'search_items' =>  __( 'Szukaj cech koni' ),
+            'popular_items' => __( 'Popularne cechy koni' ),
+            'all_items' => __( 'Wszystkie cechy koni' ),
+            'parent_item' => null,
+            'parent_item_colon' => null,
+            'edit_item' => __( 'Edytuj cechy' ), 
+            'update_item' => __( 'Aktualizuj cechy' ),
+            'add_new_item' => __( 'Dodaj nowe cechy' ),
+            'new_item_name' => __( 'Nazwa nowej cechy' ),
+            'separate_items_with_commas' => __( 'Rodziej cechy przecinkiem' ),
+            'add_or_remove_items' => __( 'Dodaj lub usuń cechy' ),
+            'choose_from_most_used' => __( 'Najczęściej używane cechy' ),
+            'menu_name' => __( 'Cechy' ),
+          ); 
+        
+          register_taxonomy('horse_tag', array($this->postTypeSlug), array(
+            'hierarchical' => false,
+            'labels' => $labels,
+            'show_ui' => true,
+            'update_count_callback' => '_update_post_term_count',
+            'query_var' => true,
+            'rewrite' => array('slug' => 'tag'),
+          ));
+    }
+
+    public function horseDescriptionCustomFields():void {
 
         ?>
         <p>Opis konia:</p>
