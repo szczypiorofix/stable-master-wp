@@ -17,6 +17,8 @@ class Sm_Cpt_Horse extends Sm_Cpt {
                 'customMetaBox'
             )
         );
+
+        add_action('init', array($this, 'customHorseCategory'));
     }
 
     public function sm_horse_change_title($title){
@@ -73,7 +75,7 @@ class Sm_Cpt_Horse extends Sm_Cpt {
         register_post_type( $this->postTypeSlug, $postTypeArgs );
     }
 
-    public function getCustomMetaBox(): void {
+    public function addCustomMetaBoxCallback(): void {
         add_meta_box( 
             $this->getField('horseDescription')->metaBoxId,
             __($this->getField('horseDescription')->title, SM_DOMAIN),
@@ -86,6 +88,33 @@ class Sm_Cpt_Horse extends Sm_Cpt {
 
     public function savePostCallback(int $post_id): void {
 
+    }
+
+    public function customHorseCategory() {
+        $labels = array(
+            'name'              => _x('Kategorie koni', 'taxonomy general name', SM_DOMAIN),
+            'singular_name'     => _x('Kategoria koni', 'taxonomy singular name', SM_DOMAIN),
+            'search_items'      => __('Szukaj kategorii koni', SM_DOMAIN),
+            'all_items'         => __('Wszystkie kateorie koni', SM_DOMAIN),
+            'parent_item'       => __('Kategoria rodzima', SM_DOMAIN),
+            'parent_item_colon' => __('Kategoria rodzima:', SM_DOMAIN),
+            'edit_item'         => __('Edytuj kategorię koni', SM_DOMAIN),
+            'update_item'       => __('Aktualizuj kategorię', SM_DOMAIN),
+            'add_new_item'      => __('Dodaj nową kategorię', SM_DOMAIN),
+            'new_item_name'     => __('Nazwa nowej kategorii', SM_DOMAIN),
+            'menu_name'         => __('Kategorie koni', SM_DOMAIN),
+        );
+    
+        $args = array(
+            'hierarchical'      => true,
+            'labels'            => $labels,
+            'show_ui'           => true,
+            'show_admin_column' => true,
+            'query_var'         => true,
+            'rewrite'           => array('slug' => 'horse_category'),
+        );
+    
+        register_taxonomy('horse_category', array($this->postTypeSlug), $args);
     }
 
     public function horseDescriptionCustomFields() {

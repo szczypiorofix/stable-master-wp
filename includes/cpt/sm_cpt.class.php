@@ -15,13 +15,13 @@ abstract class Sm_Cpt {
 
     abstract function registerPostTypeCallback(): void;
 
-    abstract function getCustomMetaBox(): void;
+    abstract function addCustomMetaBoxCallback(): void;
 
     abstract function savePostCallback(int $post_id): void;
 
     protected function initializeActions(): void {
         add_action('init', array($this, 'registerPostTypeCallback'));
-        add_action('add_meta_boxes', array($this, 'getCustomMetaBox'));
+        add_action('add_meta_boxes', array($this, 'addCustomMetaBoxCallback'));
         add_action('save_post', array($this, 'savePostCallback'));
     }
 
