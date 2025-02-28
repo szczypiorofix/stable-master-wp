@@ -6,8 +6,6 @@ class Sm_Cpt_Horse extends Sm_Cpt {
     public function __construct(string $postTypeSlug) {
         parent::__construct($postTypeSlug);
 
-        add_filter('enter_title_here', array($this, 'sm_horse_change_title'));
-
         $this->addField(
             'horseDescription',
             new Sm_Cpt_Field(
@@ -18,16 +16,51 @@ class Sm_Cpt_Horse extends Sm_Cpt {
             )
         );
 
-        add_action('init', array($this, 'customHorseCategory'));
-        add_action('init', array($this, 'customHorseTags'));
+        add_filter('enter_title_here', array($this, 'changePostTitlePlaceholder'));
+
+        add_action('init', array($this, 'addCustomHorseCategory'));
+        add_action('init', array($this, 'addCustomHorseTags'));
+
+        add_action('admin_init', array($this, 'addCustomColumnnForPostList'));
     }
 
-    public function sm_horse_change_title($title){
+
+    public function addCustomColumnnForPostList() {
+        add_filter("manage_{$this->postTypeSlug}_posts_columns", array($this, 'addHorseImageColumn'));
+        add_filter("manage_{$this->postTypeSlug}_posts_custom_column", array($this, 'addDisplayHorseImageColumn'), 10, 2);
+    }
+
+    public function changePostTitlePlaceholder($title){
         $screen = get_current_screen();
         if  ('sm_horse' == $screen->post_type) {
             $title = 'Imię konia';
         }
         return $title;
+    }
+
+    public function addHorseImageColumn($columns): array {
+        $new_columns = array();
+        foreach ($columns as $key => $value) {
+            $new_columns[$key] = $value;
+            if ($key == 'title') {
+                $new_columns['post_image'] = __('Zdjęcie konia', SM_DOMAIN);
+            }
+        }
+        return $new_columns;
+    }
+
+    public function addDisplayHorseImageColumn($column_name, $post_id = "default") {
+        error_log($column_name);
+        error_log($post_id);
+        
+        if ($column_name === 'post_image') {
+            if (has_post_thumbnail($post_id)) {
+                $image = get_the_post_thumbnail($post_id, array(60, 60));
+                echo $image;
+            } else {
+                echo __('No Image', SM_DOMAIN);
+            }
+        }
     }
     
     public function registerPostTypeCallback(): void {
@@ -91,7 +124,7 @@ class Sm_Cpt_Horse extends Sm_Cpt {
 
     }
 
-    public function customHorseCategory(): void {
+    public function addCustomHorseCategory(): void {
         $labels = array(
             'name'              => _x('Kategorie koni', 'taxonomy general name', SM_DOMAIN),
             'singular_name'     => _x('Kategoria koni', 'taxonomy singular name', SM_DOMAIN),
@@ -118,7 +151,7 @@ class Sm_Cpt_Horse extends Sm_Cpt {
         register_taxonomy('horse_category', array($this->postTypeSlug), $args);
     }
 
-    public function customHorseTags(): void {
+    public function addCustomHorseTags(): void {
         $labels = array(
             'name' => _x( 'Cechy koni', 'taxonomy general name' ),
             'singular_name' => _x( 'Cecha konia', 'taxonomy singular name' ),
@@ -147,7 +180,7 @@ class Sm_Cpt_Horse extends Sm_Cpt {
           ));
     }
 
-    public function horseDescriptionCustomFields():void {
+    public function horseDescriptionCustomFields(): void {
 
         ?>
         <p>Opis konia:</p>
