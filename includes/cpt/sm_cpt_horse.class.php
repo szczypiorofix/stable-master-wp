@@ -50,9 +50,6 @@ class Sm_Cpt_Horse extends Sm_Cpt {
     }
 
     public function addDisplayHorseImageColumn($column_name, $post_id = "default") {
-        error_log($column_name);
-        error_log($post_id);
-        
         if ($column_name === 'post_image') {
             if (has_post_thumbnail($post_id)) {
                 $image = get_the_post_thumbnail($post_id, array(60, 60));
