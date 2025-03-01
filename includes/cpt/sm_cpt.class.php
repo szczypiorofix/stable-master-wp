@@ -25,15 +25,34 @@ abstract class Sm_Cpt {
         add_action('save_post', array($this, 'savePostCallback'));
     }
 
-    protected function addField(string $id, Sm_Cpt_Field $field): void {
-        if (isset($this->fields[$id])) {
+    protected function setupField(string $fieldId, string $fieldName): Sm_Cpt_Field {
+        if (isset($this->fields[$fieldId])) {
             if (defined('WP_DEBUG') && true === WP_DEBUG) {
-                wp_die("Pole $id jest już zidentyfikowane !");
+                wp_die("Pole $fieldId jest już zidentyfikowane !");
              }
         }
-        $this->fields[$id] = $field;
+        $field = new Sm_Cpt_Field(
+            $fieldId . "_fieldName",
+            $fieldName,
+            $fieldId . '_nonce',
+            $fieldId . '_metaBoxId'
+        );
+
+        $this->fields[$fieldId] = $field;
+        return $field;
     }
     
+    protected function addMetaBox(Sm_Cpt_Field $field, callable $callback, string $context = 'normal', $priotify = 'default'): void {
+        add_meta_box( 
+            $field->metaBoxId,
+            __($field->title, SM_DOMAIN),
+            $callback,
+            $this->postTypeSlug,
+            $context,
+            $priotify
+        );
+    }
+
     protected function getField(string $id): Sm_Cpt_Field | null {
         if (isset($this->fields[$id])) {
             return $this->fields[$id];

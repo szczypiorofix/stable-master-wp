@@ -3,20 +3,12 @@
 defined( 'ABSPATH' ) || exit;
 
 class Sm_Cpt_Horse extends Sm_Cpt {
-    
+    private Sm_Cpt_Field $horseDescriptionField;
     
     public function __construct(string $postTypeSlug) {
         parent::__construct($postTypeSlug);
 
-        $this->addField(
-            'horseDescription',
-            new Sm_Cpt_Field(
-                "_horseDescription",
-                'Opis konia',
-                'horseDescription_nonce',
-                'customMetaBox'
-            )
-        );
+        $this->horseDescriptionField = $this->setupField('horseDescription', 'Opis konia');
 
         add_filter('enter_title_here', array($this, 'changePostTitlePlaceholder'));
 
@@ -109,13 +101,9 @@ class Sm_Cpt_Horse extends Sm_Cpt {
     }
 
     public function addCustomMetaBoxCallback(): void {
-        add_meta_box( 
-            $this->getField('horseDescription')->metaBoxId,
-            __($this->getField('horseDescription')->title, SM_DOMAIN),
-            array($this, 'horseDescriptionCustomFields'),
-            $this->postTypeSlug,
-            'normal',
-            'default'
+        $this->addMetaBox(
+            $this->horseDescriptionField ,
+            array($this, 'horseDescriptionCustomFields')
         );
     }
 
@@ -125,8 +113,8 @@ class Sm_Cpt_Horse extends Sm_Cpt {
 
     public function addCustomHorseCategory(): void {
         $labels = array(
-            'name'              => _x('Kategorie koni', 'taxonomy general name', SM_DOMAIN),
-            'singular_name'     => _x('Kategoria koni', 'taxonomy singular name', SM_DOMAIN),
+            'name'              => __('Kategorie koni', SM_DOMAIN),
+            'singular_name'     => __('Kategoria koni', SM_DOMAIN),
             'search_items'      => __('Szukaj kategorii koni', SM_DOMAIN),
             'all_items'         => __('Wszystkie kateorie koni', SM_DOMAIN),
             'parent_item'       => __('Kategoria rodzima', SM_DOMAIN),
@@ -152,21 +140,21 @@ class Sm_Cpt_Horse extends Sm_Cpt {
 
     public function addCustomHorseTags(): void {
         $labels = array(
-            'name' => _x( 'Cechy koni', 'taxonomy general name' ),
-            'singular_name' => _x( 'Cecha konia', 'taxonomy singular name' ),
-            'search_items' =>  __( 'Szukaj cech koni' ),
-            'popular_items' => __( 'Popularne cechy koni' ),
-            'all_items' => __( 'Wszystkie cechy koni' ),
+            'name' => __( 'Cechy koni', SM_DOMAIN),
+            'singular_name' => __( 'Cecha konia', SM_DOMAIN),
+            'search_items' =>  __( 'Szukaj cech koni', SM_DOMAIN),
+            'popular_items' => __( 'Popularne cechy koni', SM_DOMAIN),
+            'all_items' => __( 'Wszystkie cechy koni', SM_DOMAIN),
             'parent_item' => null,
             'parent_item_colon' => null,
-            'edit_item' => __( 'Edytuj cechy' ), 
-            'update_item' => __( 'Aktualizuj cechy' ),
-            'add_new_item' => __( 'Dodaj nowe cechy' ),
-            'new_item_name' => __( 'Nazwa nowej cechy' ),
-            'separate_items_with_commas' => __( 'Rodziej cechy przecinkiem' ),
-            'add_or_remove_items' => __( 'Dodaj lub usuń cechy' ),
-            'choose_from_most_used' => __( 'Najczęściej używane cechy' ),
-            'menu_name' => __( 'Cechy' ),
+            'edit_item' => __( 'Edytuj cechy', SM_DOMAIN), 
+            'update_item' => __( 'Aktualizuj cechy', SM_DOMAIN),
+            'add_new_item' => __( 'Dodaj nowe cechy', SM_DOMAIN),
+            'new_item_name' => __( 'Nazwa nowej cechy', SM_DOMAIN),
+            'separate_items_with_commas' => __( 'Rodziej cechy przecinkiem', SM_DOMAIN),
+            'add_or_remove_items' => __( 'Dodaj lub usuń cechy', SM_DOMAIN),
+            'choose_from_most_used' => __( 'Najczęściej używane cechy', SM_DOMAIN),
+            'menu_name' => __( 'Cechy', SM_DOMAIN),
           ); 
         
           register_taxonomy('horse_tag', array($this->postTypeSlug), array(
