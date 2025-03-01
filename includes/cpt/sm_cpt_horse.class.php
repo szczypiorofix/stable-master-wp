@@ -3,6 +3,8 @@
 defined( 'ABSPATH' ) || exit;
 
 class Sm_Cpt_Horse extends Sm_Cpt {
+    
+    
     public function __construct(string $postTypeSlug) {
         parent::__construct($postTypeSlug);
 
@@ -178,6 +180,7 @@ class Sm_Cpt_Horse extends Sm_Cpt {
     }
 
     public function horseDescriptionCustomFields(): void {
+        wp_nonce_field(plugin_basename(__FILE__), 'horseDescription_nonce');
 
         ?>
         <p>Opis konia:</p>
