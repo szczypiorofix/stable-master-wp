@@ -25,20 +25,21 @@ abstract class Sm_Cpt {
         add_action('save_post', array($this, 'savePostCallback'));
     }
 
-    public function addField(string $id, Sm_Cpt_Field $field): void {
+    protected function addField(string $id, Sm_Cpt_Field $field): void {
+        if (isset($this->fields[$id])) {
+            if (defined('WP_DEBUG') && true === WP_DEBUG) {
+                wp_die("Pole $id jest już zidentyfikowane !");
+             }
+        }
         $this->fields[$id] = $field;
     }
-
-    public function getFields(): array {
-        return $this->fields;
-    }
     
-    public function getField(string $id): Sm_Cpt_Field | null {
+    protected function getField(string $id): Sm_Cpt_Field | null {
         if (isset($this->fields[$id])) {
             return $this->fields[$id];
         } else {
             if (defined('WP_DEBUG') && true === WP_DEBUG) {
-                wp_die("Nie znaleziono pola id = " . $id, "Błąd pola postu!");
+                wp_die("Nie znaleziono pola id = $id Błąd pola postu!");
              }
              return null;
         }
