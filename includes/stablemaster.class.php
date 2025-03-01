@@ -10,6 +10,8 @@ class StableMaster {
 
         $cptHorse = new Sm_Cpt_Horse('sm_horse');
         $smMenus = new SM_Menus();
+
+        $smAdmin = new Admin_Loader();
     }
 
     public static function initialize(): void {

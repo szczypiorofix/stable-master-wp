@@ -1,0 +1,19 @@
+/**
+ * Admin styles
+ */
+
+.sm_admin {
+    display: block;
+    width: 100%;
+}
+
+.sm_admin.main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.sm_admin.main .logo {
+    max-width: 200px;
+    height: auto;
+}

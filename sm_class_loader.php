@@ -33,7 +33,6 @@ class SMClassLoader {
         foreach ($this->directories as $directory) {
             $fullPath = $directory . DIRECTORY_SEPARATOR . $filePath;
             $fullPathLowerCase = strtolower($fullPath);
-            
             if (file_exists($fullPathLowerCase)) {
                 require_once $fullPathLowerCase;
                 return true;

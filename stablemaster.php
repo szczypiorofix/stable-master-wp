@@ -26,6 +26,7 @@ try {
     $loader->addDirectory(__DIR__ . '/includes');
     $loader->addDirectory(__DIR__ . '/includes/classes');
     $loader->addDirectory(__DIR__ . '/includes/cpt');
+    $loader->addDirectory(__DIR__ . '/admin');
 
     // Optionally set a namespace prefix
     // $loader->setNamespacePrefix('MyApp\\');
