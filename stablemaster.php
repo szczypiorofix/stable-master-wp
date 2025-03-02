@@ -3,7 +3,7 @@
  * Plugin Name: Stable Master
  * Plugin URI:        https://wroblewskipiotr.pl/
  * Description:       Plugin for managing stable
- * Version:           0.0.1
+ * Version:           0.0.2
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Piotr Wróblewski
@@ -15,22 +15,22 @@
  * Domain Path:       /languages
 */
 
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
 require __DIR__ . '/constants.php';
-require_once __DIR__.'/class_sm_loader.php';
+require_once __DIR__ . '/class_sm_loader.php';
 
 try {
     $loader = new SM_Loader();
 
-    $loader->add_directory(__DIR__ . '/includes');
-    $loader->add_directory(__DIR__ . '/includes/classes');
-    $loader->add_directory(__DIR__ . '/includes/cpt');
-    $loader->add_directory(__DIR__ . '/admin');
+    $loader->add_directory( __DIR__ . '/includes' );
+    $loader->add_directory( __DIR__ . '/includes/classes' );
+    $loader->add_directory( __DIR__ . '/includes/cpt' );
+    $loader->add_directory( __DIR__ . '/admin' );
 
     $loader->register();
     add_action( 'plugins_loaded', array( 'Stable_Master', 'initialize' ) );
-} catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
+} catch ( Exception $e ) {
+    echo "SM_Loader error: " . $e->getMessage();
 }
 
