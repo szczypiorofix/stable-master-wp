@@ -2,7 +2,7 @@
 
 defined('ABSPATH') || exit;
 
-class SMClassLoader {
+class SM_Loader {
     private $directories = [];
     private $namespacePrefix = '';
 
@@ -11,14 +11,14 @@ class SMClassLoader {
         $this->namespacePrefix = $namespacePrefix;
     }
 
-    public function addDirectory(string $directory) {
+    public function add_directory(string $directory) {
         $directory = rtrim($directory, DIRECTORY_SEPARATOR);
         if (!in_array($directory, $this->directories)) {
             $this->directories[] = $directory;
         }
     }
 
-    public function loadClass(string $className): bool {
+    public function load_class(string $className): bool {
         if ($this->namespacePrefix !== '' && 
             strpos($className, $this->namespacePrefix) !== 0) {
             return false;
@@ -28,10 +28,11 @@ class SMClassLoader {
             ? substr($className, strlen($this->namespacePrefix))
             : $className;
 
-        $filePath = str_replace('\\', DIRECTORY_SEPARATOR, $relativeClass) . '.class.php';
+        $filePath = str_replace('\\', DIRECTORY_SEPARATOR, "class_". $relativeClass) . '.php';
+        $filePathWithHypens = str_replace('_', '-', $filePath);
 
         foreach ($this->directories as $directory) {
-            $fullPath = $directory . DIRECTORY_SEPARATOR . $filePath;
+            $fullPath = $directory . DIRECTORY_SEPARATOR . $filePathWithHypens;
             $fullPathLowerCase = strtolower($fullPath);
             if (file_exists($fullPathLowerCase)) {
                 require_once $fullPathLowerCase;
@@ -43,10 +44,10 @@ class SMClassLoader {
     }
 
     public function register(): void {
-        spl_autoload_register([$this, 'loadClass']);
+        spl_autoload_register([$this, 'load_class']);
     }
 
     public function unregister(): void {
-        spl_autoload_unregister([$this, 'loadClass']);
+        spl_autoload_unregister([$this, 'load_class']);
     }
 }

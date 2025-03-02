@@ -18,21 +18,18 @@
 defined('ABSPATH') || exit;
 
 require __DIR__ . '/constants.php';
-require_once __DIR__.'/sm_class_loader.php';
+require_once __DIR__.'/class_sm_loader.php';
 
 try {
-    $loader = new SMClassLoader();
+    $loader = new SM_Loader();
 
-    $loader->addDirectory(__DIR__ . '/includes');
-    $loader->addDirectory(__DIR__ . '/includes/classes');
-    $loader->addDirectory(__DIR__ . '/includes/cpt');
-    $loader->addDirectory(__DIR__ . '/admin');
-
-    // Optionally set a namespace prefix
-    // $loader->setNamespacePrefix('MyApp\\');
+    $loader->add_directory(__DIR__ . '/includes');
+    $loader->add_directory(__DIR__ . '/includes/classes');
+    $loader->add_directory(__DIR__ . '/includes/cpt');
+    $loader->add_directory(__DIR__ . '/admin');
 
     $loader->register();
-    add_action( 'plugins_loaded', array( 'StableMaster', 'initialize' ) );
+    add_action( 'plugins_loaded', array( 'Stable_Master', 'initialize' ) );
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
 }

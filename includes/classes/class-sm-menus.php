@@ -14,7 +14,7 @@ class SM_Menus {
             'manage_options',
             'sm_settings',
             array($this, 'stablemaster_settings_view'),
-            'dashicons-buddicons-activity',
+            'dashicons-admin-generic',
             26
         );
     }
