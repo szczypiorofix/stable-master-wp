@@ -20,6 +20,6 @@ class SM_Menus {
     }
 
     public function stablemaster_settings_view(): void {
-        require_once SM_PLUGIN_DIR_PATH . '/admin/settings-view.php';
+        require_once SM_PLUGIN_DIR_PATH . '/adminpages/settings-view.php';
     }
 }

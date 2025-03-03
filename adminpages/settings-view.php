@@ -1,10 +1,10 @@
 <?php
 
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
 add_settings_section(
 	'eg_setting_section',
-	__('Zarządzanie', SM_DOMAIN),
+	__( 'Zarządzanie', SM_DOMAIN ),
 	'setting_section_callback_function',
 	'sm_settings'
 );
@@ -12,7 +12,7 @@ add_settings_section(
 function setting_section_callback_function($args) {
     ?>
     <div class="sm_admin main">
-        <img class="logo" src="<?php echo plugins_url('static/images/horse-icon.jpg', __FILE__ ) ?>" alt="" width="" height="" />
+        <img class="logo" src="<?= plugins_url( 'images/horse-icon.jpg',__FILE__ ) ?>" alt="Stable Master logo" />
         <div>
             <pre><?= print_r($args) ?></pre>
         </div>
@@ -35,4 +35,3 @@ function setting_section_callback_function($args) {
     ?>
     </form>
 </div>
-

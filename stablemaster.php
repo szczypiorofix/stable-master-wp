@@ -17,16 +17,16 @@
 
 defined( 'ABSPATH' ) || exit;
 
-require __DIR__ . '/constants.php';
-require_once __DIR__ . '/class_sm_loader.php';
+require __DIR__ . '/includes/define_constants.php';
+define_sm_constants( __DIR__, __FILE__ );
+
+require_once __DIR__ . '/classes/class_sm_loader.php';
 
 try {
     $loader = new SM_Loader();
 
-    $loader->add_directory( __DIR__ . '/includes' );
-    $loader->add_directory( __DIR__ . '/includes/classes' );
-    $loader->add_directory( __DIR__ . '/includes/cpt' );
-    $loader->add_directory( __DIR__ . '/admin' );
+    $loader->add_directory( __DIR__ . '/classes' );
+    $loader->add_directory( __DIR__ . '/adminpages' );
 
     $loader->register();
     add_action( 'plugins_loaded', array( 'Stable_Master', 'initialize' ) );
