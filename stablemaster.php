@@ -20,13 +20,16 @@ defined( 'ABSPATH' ) || exit;
 require __DIR__ . '/includes/define_constants.php';
 define_sm_constants( __DIR__, __FILE__ );
 
-require_once __DIR__ . '/classes/class_sm_loader.php';
+require_once __DIR__ . '/classes/class-sm-loader.php';
 
 try {
     $loader = new SM_Loader();
-
-    $loader->add_directory( __DIR__ . '/classes' );
-    $loader->add_directory( __DIR__ . '/adminpages' );
+    $loader->add_directories(
+        array(
+            __DIR__ . '/classes',
+            __DIR__ . '/adminpages'
+        )
+    );
 
     $loader->register();
     add_action( 'plugins_loaded', array( 'Stable_Master', 'initialize' ) );

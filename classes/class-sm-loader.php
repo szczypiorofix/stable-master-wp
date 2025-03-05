@@ -23,6 +23,12 @@ class SM_Loader {
         }
     }
 
+    public function add_directories( array $directories ): void {
+        foreach($directories as $directory) {
+            $this->add_directory($directory);
+        }
+    }
+
     public function load_class( string $className ): bool {
         if ( $this->namespacePrefix !== '' && strpos( $className, $this->namespacePrefix ) !== 0 ) {
             return false;
