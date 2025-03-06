@@ -17,3 +17,23 @@
     max-width: 200px;
     height: auto;
 }
+
+.admin.field {
+    display: block;
+}
+
+.sm_width_full {
+    width: 100%;
+}
+
+.sm_width_half {
+    width: 50%;
+}
+
+#sm_horse_custom_fields .field-group {
+    margin: 1.1em 0;
+}
+
+.sm_width_quarter {
+    width: 25%;
+}
