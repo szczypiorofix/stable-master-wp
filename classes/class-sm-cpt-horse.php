@@ -16,13 +16,18 @@ class Sm_Cpt_Horse extends SM_Base_CPT {
 
         $fields = array(
             array(
-                'id'    => 'product_price',
-                'label' => 'Cena produktu',
+                'id'    => 'horse_breed',
+                'label' => 'Rasa konia',
                 'type'  => 'text',
             ),
             array(
-                'id'    => 'product_available',
-                'label' => 'Dostępny',
+                'id'    => 'horse_age',
+                'label' => 'Wiek',
+                'type'  => 'number',
+            ),
+            array(
+                'id'    => 'horse_active',
+                'label' => 'Aktywny',
                 'type'  => 'checkbox',
             ),
         );

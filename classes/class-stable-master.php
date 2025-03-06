@@ -7,11 +7,13 @@ class Stable_Master {
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
-        $cptHorse = new Sm_Cpt_Horse(SM_CPT_HORSE);
-        $smMenus = new SM_Menus();
+        $cpt_horse = new Sm_Cpt_Horse(SM_CPT_HORSE);
 
-        $smAdmin = new Admin_Loader();
-        $shortCodes = new SM_ShortCodes();
+        $sm_admin = new Admin_Loader();
+        $short_codes = new SM_ShortCodes();
+
+        $admin_menu = new SM_Admin_Menu();
+        $admin_menu->init();
     }
 
     public static function initialize(): void {
