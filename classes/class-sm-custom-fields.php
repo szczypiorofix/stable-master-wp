@@ -16,11 +16,11 @@ class SM_Custom_Fields {
     public function register_meta_boxes(): void {
         add_meta_box(
             $this->post_type . '_custom_fields',
-            'Dodatkowe pola',
+            'Cechy konia',
             array( $this, 'render_meta_box' ),
             $this->post_type,
-            'normal',
-            'high'
+            'advanced',
+            'default'
         );
     }
 
@@ -28,14 +28,28 @@ class SM_Custom_Fields {
         wp_nonce_field( basename( __FILE__ ), $this->post_type . '_nonce' );
         foreach ( $this->fields as $field ) {
             $value = get_post_meta( $post->ID, $field['id'], true );
-            echo '<p>';
-            echo '<label for="' . esc_attr( $field['id'] ) . '">' . esc_html( $field['label'] ) . '</label><br>';
+            echo '<p class="field-group">';
             switch ( $field['type'] ) {
                 case 'text':
-                    echo '<input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $field['id'] ) . '" value="' . esc_attr( $value ) . '" style="width: 100%;" />';
+                    SM_Field_Builder::getField(SM_Field_Type::TEXT, array(
+                        'value' => $value,
+                        'label' => $field['label'],
+                        'id' => $field['id']
+                    ));
                     break;
                 case 'checkbox':
-                    echo '<input type="checkbox" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $field['id'] ) . '" ' . checked( $value === 'on', 1, false ) . ' />';
+                    SM_Field_Builder::getField(SM_Field_Type::CHECKBOX, array(
+                        'value' => $value,
+                        'label' => $field['label'],
+                        'id' => $field['id']
+                    ));
+                    break;
+                case 'number':
+                    SM_Field_Builder::getField(SM_Field_Type::NUMBER, array(
+                        'value' => $value,
+                        'label' => $field['label'],
+                        'id' => $field['id']
+                    ));
                     break;
                 // TODO: Add other types
             }
